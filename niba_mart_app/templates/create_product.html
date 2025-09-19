@@ -1,0 +1,165 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NiBa Mart - Upload Product</title>
+    <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      .product-card {
+        width: 100%;
+        max-width: 500px;
+        border: 1px solid #00b98e;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 185, 142, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        color: #00b98e;
+        margin-bottom: 1.5rem;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 0.3rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+
+      button[type="submit"] {
+        padding: 0.8rem;
+        background-color: #00b98e;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 15px;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #009e7d;
+      }
+
+      .errorlist {
+        color: red;
+        margin-bottom: 1rem;
+        list-style: none;
+        padding-left: 0;
+      }
+
+      #imagePreview {
+        margin-top: 15px;
+        text-align: center;
+      }
+
+      #imagePreview img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        display: none;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="product-card">
+      <h1>Upload a new Product</h1>
+
+<form method="post" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div>
+    {{ form.name.label_tag }} {{ form.name }} {{ form.name.errors }}
+  </div>
+
+  <div>
+    {{ form.description.label_tag }} {{ form.description }} {{ form.description.errors }}
+  </div>
+
+  <div>
+    {{ form.price.label_tag }} {{ form.price }} {{ form.price.errors }}
+  </div>
+
+  <div>
+    {{ form.quantity.label_tag }} {{ form.quantity }} {{ form.quantity.errors }}
+  </div>
+
+  <div>
+    {{ form.category.label_tag }} {{ form.category }} {{ form.category.errors }}
+  </div>
+
+  <div>
+    {{ form.condition.label_tag }} {{ form.condition }} {{ form.condition.errors }}
+  </div>
+
+  <div>
+    {{ form.image.label_tag }} {{ form.image }} {{ form.image.errors }}
+    <div id="imagePreview" style="margin-top: 15px">
+      <img id="previewImg" src="#" alt="Image Preview" />
+    </div>
+  </div>
+
+  <button type="submit">Post Product</button>
+</form>
+
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const imageInput = document.querySelector('input[name="image"]');
+        const previewImg = document.getElementById("previewImg");
+
+        if (imageInput) {
+          imageInput.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.addEventListener("load", function () {
+                previewImg.setAttribute("src", this.result);
+                previewImg.style.display = "block";
+              });
+              reader.readAsDataURL(file);
+            } else {
+              previewImg.setAttribute("src", "#");
+              previewImg.style.display = "none";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

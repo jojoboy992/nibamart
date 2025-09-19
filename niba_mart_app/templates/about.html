@@ -1,0 +1,502 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>NiBa Mart - Powered by Students, Built for Students</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+
+    <style>
+
+
+
+    .faq-container {
+      max-width: 97%;
+      margin: auto;
+      margin-top: 90px;
+    }
+
+    .faq-item {
+      border: 1px solid #00b98e;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 185, 142, 0.2);
+    }
+
+    .faq-question {
+      background-color: #00b98e;
+      color: #ffffff;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      right: 1rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-question::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      background-color: #ffffff;
+      color: #333;
+      padding: 0 1rem;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .faq-question {
+        font-size: 1rem;
+      }
+    }
+
+      @media(max-width:990px){
+
+      #logo_pic{
+        height: 70px !important;
+      }
+
+      }
+
+      
+      @media(max-width:768px){
+          #signup_footer{
+            justify-content: start !important;
+          }
+      }
+    </style>
+
+    </style>
+  </head>
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div> -->
+        <!-- Spinner End -->
+
+
+       <!-- Navbar Start -->
+      <div class="container-fluid nav-bar bg-transparent">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
+          <a
+            href="{% url 'home' %}"
+            class="navbar-brand d-flex align-items-center text-center"
+          >
+              <img
+                class="img-fluid"
+                src="{% static 'img/niba_logo_2.jpg' %}"
+                alt="Icon"
+              style="height: 100px;"
+              id="logo_pic"/>
+          </a>
+          <button
+            type="button"
+            class="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse" style="height: 100px !important;">
+            <div class="navbar-nav ms-auto">
+              <a href="#" class="nav-item nav-link">
+                <div id="notification-bell" style="position: relative; cursor: pointer;">
+  <i class="fa fa-bell" style="font-size: 25px;"></i>
+  <span id="notification-count"
+        style="position: absolute; top: -5px; right: -10px; 
+               background: #ffb723; color: white; border-radius: 50%; 
+               padding: 2px 6px; font-size: 12px; display: none;">0</span>
+</div>
+</a>
+              <!-- <a href="{% url 'home' %}" class="nav-item nav-link active"
+                >{{user.username}}</a
+              > -->
+              <a href="{% url 'home' %}" class="nav-item nav-link"
+                >Home</a
+              >
+              <a href="{% url 'about' %}" class="nav-item nav-link active"
+                >About</a
+              >
+              <a href="{% url 'contact' %}" class="nav-item nav-link"
+                >Contact</a
+              >
+                <a href="{% url 'products' %}" class="nav-item nav-link"
+                >Products</a
+              >
+              {% if user.is_authenticated %}
+                <a href="{% url 'user_profile' request.user.username %}" class="nav-item nav-link"
+                  id="new_profile_link"
+                >Profile</a>  
+                <a href="{% url 'logout' %}" class="nav-item nav-link"
+                  id="new_logout_link">Logout</a
+              >
+              {% else %}
+                <a href="{% url 'login' %}" class="nav-item nav-link"
+                  id="new_login_link">Login</a>
+              {% endif %}
+              
+            </div>
+
+                {% if user.is_authenticated %}
+                    <div class="nav-item custom-dropdown">
+  <button class="dropdown-btn" style="background: #00a97f !important;">
+    Account <span class="arrow">&#9662;</span>
+  </button>
+  <div class="dropdown-menu">
+    <a href="{% url 'user_profile' request.user.username %}" class="dropdown-item">Profile</a>
+    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+  </div>
+</div>
+
+              {% else %}
+            <a href="{% url 'signup' %}" class="btn btn-primary px-3 d-none d-lg-flex"
+              >Create Account</a
+            >
+              {% endif %}
+
+          </div>
+        </nav>
+      </div>
+      <!-- Navbar End -->
+
+
+        <!-- Search Start -->
+        <!-- <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+            <div class="container">
+                <div class="row g-2">
+                    <div class="col-md-10">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control border-0 py-3" placeholder="Search Keyword">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Property Type</option>
+                                    <option value="1">Property Type 1</option>
+                                    <option value="2">Property Type 2</option>
+                                    <option value="3">Property Type 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-0 py-3">
+                                    <option selected>Location</option>
+                                    <option value="1">Location 1</option>
+                                    <option value="2">Location 2</option>
+                                    <option value="3">Location 3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-dark border-0 w-100 py-3">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Search End -->
+
+
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                        <div class="about-img position-relative overflow-hidden p-5 pe-0">
+                            <img class="img-fluid w-100" src="{% static 'img/niba_mart_picture.jpg' %}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                        <h3 class="mb-4">Welcome to <span class="text-primary">NiBa Mart</span>, the first-of-its-kind online marketplace 
+                           with a sleek and modern design built exclusively for students from Nile and Baze University!</h3>
+                        <p class="mb-4">We created this platform with one simple goal: to make buying, 
+                            selling, and swapping goods between students easier, safer, and smarter.</p>
+                          <p class="mb-4">Whether you're looking to sell your old textbooks, 
+                        find affordable furniture for your dorm or even get your hands on limited-edition merch, 
+                        <span class="text-primary">NiBa Mart</span> is your go-to space. No more long social media threads, unreliable meetups, or overpriced deals – just a clean, trusted, student-to-student shopping experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+<!-- FAQ section -->
+ <div class="faq-container">
+    <h1 class="mb-4" style="text-align: center !important;">FAQ's</h1>
+    <div class="faq-item">
+      <div class="faq-question">Can we be trusted?</div>
+      <div class="faq-answer">All users are required to create an account using their
+         <span style="font-weight: 600;"> Student Email Address</span>(which will be verified)
+         to ensure the legitimacy of all users on our platform, and each user is given a profile page
+         where more informations about them are provided or given.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Why We Exist?</div>
+      <div class="faq-answer">Students have stuffs, Lots of it. From laptops and lab coats to art supplies 
+        and kitchen gear – much of it in great condition, just waiting to be reused. 
+        But there was no reliable way for students across our two universities 
+        to connect and exchange items... until now.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Who It's For?</div>
+      <div class="faq-answer">This marketplace is built by students, for students of Nile and Baze University. That means:
+
+<p>- Location-friendly transactions</p>
+
+<p>- Affordable student-budget-friendly pricing</p>
+
+Whether you’re moving out, decluttering, or just looking for a deal, this space was built with you in mind.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Is This Site For Only Nile And Baze Students?</div>
+      <div class="faq-answer">
+        
+        <p style="font-size: 15px; font-weight: lighter;">
+          <span style="font-weight: bold; font-size: 25px;">Yes,</span>
+          Currently our platform is exclusively available to only students of Nile and Baze University. 
+          We believe in fostering a close-knit community where students can easily connect and trade with their peers. 
+          However, we are always exploring opportunities to expand our services in the future. Stay tuned for any updates!
+        </p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Our Mission</div>
+      <div class="faq-answer">To connect students from Nile and Baze University through a trusted marketplace where they can:
+
+<p>- Buy and sell pre-loved items affordably</p>
+
+<p>- Reduce waste and promote sustainable shopping</p>
+
+<p>- Build a stronger campus community through peer-to-peer exchange</p></div>
+    </div>
+  </div>
+<!-- FAQ section end -->
+
+        <!-- Call to Action Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="bg-light rounded p-3">
+                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                                <img class="img-fluid rounded w-100" src="{% static 'img/contact_us.jpg' %}" alt="">
+                            </div>
+                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="mb-4">
+                                    <h1 class="mb-3">You can contact us here</h1>
+                                    <p>We offer multiple modes of contact for enquires</p>
+                                </div>
+                                <a href="{% url 'contact' %}" class="btn btn-secondary py-3 px-4">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Call to Action End -->
+
+      <!-- Footer Start -->
+      <div
+        class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
+        <div class="container py-5">
+          <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+              <h5 class="text-white mb-4">Get In Touch</h5>
+              <p class="mb-2">
+                <i class="fa fa-map-marker-alt me-3"></i>123 Street, New York,
+                USA
+              </p>
+              <p class="mb-2">
+                <i class="fa fa-phone-alt me-3"></i>+012 345 67890
+              </p>
+              <p class="mb-2">
+                <i class="fa fa-envelope me-3"></i>info@example.com
+              </p>
+              <div class="d-flex pt-2">
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-twitter"></i
+                ></a>
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-facebook-f"></i
+                ></a>
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-youtube"></i
+                ></a>
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-linkedin-in"></i
+                ></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <h5 class="text-white mb-4">Quick Links</h5>
+              <a class="btn btn-link text-white-50" href="{% url 'home' %}">Home</a>
+              <a class="btn btn-link text-white-50" href="{% url 'about' %}">About</a>
+              <a class="btn btn-link text-white-50" href="{% url 'contact' %}">Contact us</a>
+            </div>
+       {% if not user.is_authenticated %}
+          
+            <div class="col-lg-3 col-md-6" style="
+            display: grid; 
+            justify-content: center; 
+            text-align: center;" id="signup_footer">
+              <h5 class="text-white mb-4">Create an Account</h5>
+              <div class="position-relative mx-auto" style="max-width: 400px;" >
+
+                <a href="{% url 'signup' %}">
+                <button
+                  type="button"
+                  class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
+                  >
+                  SignUp
+                </button>
+                </a>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="container">
+          <div class="copyright">
+            <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                &copy; <a class="border-bottom" href="#">NiBa Mart</a>, All
+                Right Reserved.
+
+                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                Designed By
+                <a class="border-bottom" href="https://htmlcodex.com"
+                  >HTML Codex</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-secondary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+        <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      item.querySelector('.faq-question').addEventListener('click', () => {
+        item.classList.toggle('active');
+        faqItems.forEach(other => {
+          if (other !== item) other.classList.remove('active');
+        });
+      });
+    });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const bellCount = document.getElementById("notification-count");
+  const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+
+  // 1. Fetch unread messages count on page load
+  fetch("/chat/unread_count/")
+    .then(res => res.json())
+    .then(data => updateCount(data.unread_count));
+
+  // 2. Listen for WebSocket updates (new messages)
+  const notifySocket = new WebSocket(protocol + "://" + window.location.host + "/ws/notifications/");
+
+  notifySocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    if (data.type === "new_message") {
+      updateCount(data.unread_count);
+    }
+  };
+
+  // Helper to update badge
+  function updateCount(count) {
+  if (count > 0) {
+    bellCount.textContent = count;
+    bellCount.style.display = "inline-block";  // show badge
+  } else {
+    bellCount.style.display = "none";         // hide badge
+  }
+}
+
+});
+</script>
+</body>
+
+</html>

@@ -1,0 +1,627 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="utf-8" />
+    <title>NiBa Mart - Powered by Students, Built for Students</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="keywords" />
+    <meta content="" name="description" />
+
+    <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+    <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <style>
+
+
+      @media(max-width:990px){
+
+      #logo_pic{
+        height: 70px !important;
+      }
+
+      }
+
+      .custom-select-wrapper select {
+  display: none;
+}
+
+/* Main container */
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  user-select: none;
+}
+
+/* Trigger button */
+.custom-select-trigger {
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 58px;
+}
+
+.custom-select-trigger:hover {
+  border-color: #888;
+}
+
+/* Arrow */
+.custom-select-trigger .arrow {
+  width: 0; 
+  height: 0; 
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #333;
+  transition: transform .2s ease;
+}
+
+/* Options container */
+.custom-options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  /* remove scrolling */
+  max-height: none;
+  overflow-y: visible;
+  display: none;
+  z-index: 1000;
+}
+
+
+/* Option items */
+.custom-option {
+  display: block;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background .2s ease;
+  border-radius: 12px;
+
+}
+
+.custom-option:hover {
+  background: #f3f3f3;
+  border-radius: 12px;
+
+}
+
+.custom-option.selected {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Active state */
+.custom-select.open .custom-options {
+  display: block;
+}
+
+.custom-select.open .arrow {
+  transform: rotate(-180deg);
+}
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 per row */
+  gap: 20px; /* space between cards */
+  padding: 20px;
+}
+
+.product-card {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-image {
+  position: relative;
+  aspect-ratio: 4 / 3; /* keeps image ratio similar to screenshot */
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #00a97f;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.product-name {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: #fff;
+  color: #00a97f;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.product-info {
+  padding: 15px;
+}
+
+.price {
+  color: #00a97f;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.seller a {
+  font-weight: bold;
+  text-decoration: none;
+  color: #0a2540;
+}
+
+.timer-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.stock {
+  color: #555;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.no-products {
+  grid-column: span 3;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+  .products-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-image {
+    aspect-ratio: 3 / 4; /* taller images look nicer on medium screens */
+  }
+}
+
+/* Mobile (max-width: 600px) */
+@media (max-width: 600px) {
+  .products-container {
+    grid-template-columns: 1fr;
+  }
+
+  .product-image {
+    aspect-ratio: 1 / 1; /* square for mobile */
+  }
+}
+    </style>
+  </head>
+
+  <body>
+    <div class="container-xxl bg-white p-0">
+      <!-- Spinner Start -->
+      <!-- <div
+        id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+      >
+        <div
+          class="spinner-border text-primary"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div> -->
+      <!-- Spinner End -->
+
+      <!-- Navbar Start -->
+      <div class="container-fluid nav-bar bg-transparent">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
+          <a
+            href="{% url 'home' %}"
+            class="navbar-brand d-flex align-items-center text-center"
+          >
+              <img
+                class="img-fluid"
+                src="{% static 'img/niba_logo_2.jpg' %}"
+                alt="Icon"
+              style="height: 100px;"
+              id="logo_pic"/>
+          </a>
+          <button
+            type="button"
+            class="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse" style="height: 100px !important;">
+            <div class="navbar-nav ms-auto">
+              <a href="#" class="nav-item nav-link">
+                <div id="notification-bell" style="position: relative; cursor: pointer;">
+  <i class="fa fa-bell" style="font-size: 25px;"></i>
+  <span id="notification-count"
+        style="position: absolute; top: -5px; right: -10px; 
+               background: #ffb723; color: white; border-radius: 50%; 
+               padding: 2px 6px; font-size: 12px; display: none;">0</span>
+</div>
+</a>
+              <!-- <a href="{% url 'home' %}" class="nav-item nav-link active"
+                >{{user.username}}</a
+              > -->
+              <a href="{% url 'home' %}" class="nav-item nav-link"
+                >Home</a
+              >
+              <a href="{% url 'about' %}" class="nav-item nav-link"
+                >About</a
+              >
+              <a href="{% url 'contact' %}" class="nav-item nav-link"
+                >Contact</a
+              >
+                <a href="{% url 'products' %}" class="nav-item nav-link active"
+                >Products</a
+              >
+              {% if user.is_authenticated %}
+                <a href="{% url 'user_profile' request.user.username %}" class="nav-item nav-link"
+                  id="new_profile_link"
+                >Profile</a>  
+                <a href="{% url 'logout' %}" class="nav-item nav-link"
+                  id="new_logout_link">Logout</a
+              >
+              {% else %}
+                <a href="{% url 'login' %}" class="nav-item nav-link"
+                  id="new_login_link">Login</a>
+              {% endif %}
+              
+            </div>
+
+                {% if user.is_authenticated %}
+                           <div class="nav-item custom-dropdown">
+  <button class="dropdown-btn" style="background: #00a97f !important;">
+    Account <span class="arrow">&#9662;</span>
+  </button>
+  <div class="dropdown-menu">
+    <a href="{% url 'user_profile' request.user.username %}" class="dropdown-item">Profile</a>
+    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+  </div>
+</div>
+
+              {% else %}
+            <a href="{% url 'signup' %}" class="btn btn-primary px-3 d-none d-lg-flex"
+              >Create Account</a
+            >
+              {% endif %}
+
+          </div>
+        </nav>
+      </div>
+      <!-- Navbar End -->
+
+
+
+        <!-- Search Start -->
+  <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px">
+    <div class="container">
+      <form method="get" action="{% url 'products' %}">
+        <div class="row g-2">
+          <div class="col-md-10">
+            <div class="row g-2">
+              <!-- Search field -->
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  name="q"
+                  class="form-control border-0 py-3"
+                  placeholder="Search product"
+                  value="{{ search_query|default:'' }}"
+                />
+              </div>
+
+              <!-- Category dropdown -->
+<div class="col-md-4">
+  <div class="custom-select-wrapper">
+    <select name="category" class="form-select border-0 py-3">
+      <option value="">All Categories</option>
+      {% for key, value in categories.items %}
+        <option value="{{ key }}" {% if selected_category == key %}selected{% endif %}>
+          {{ value }}
+        </option>
+      {% endfor %}
+    </select>
+    <div class="custom-select">
+      <div class="custom-select-trigger">
+<span>
+    {% if selected_category %}
+      {% for key, value in categories.items %}
+        {% if key == selected_category %}
+          {{ value }}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      All Categories
+    {% endif %}
+  </span>
+        <div class="arrow"></div>
+      </div>
+      <div class="custom-options">
+        <span class="custom-option" data-value="">All Categories</span>
+        {% for key, value in categories.items %}
+          <span class="custom-option {% if selected_category == key %}selected{% endif %}" data-value="{{ key }}">
+            {{ value }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+          </div>
+
+          <!-- Search button -->
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-dark border-0 w-100 py-3">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Search End -->
+
+  <div class="products-container">
+  {% for product in products %}
+    <div class="product-card">
+      <a href="{% url 'product_details' product.pk %}">
+        <div class="product-image">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+          {% endif %}
+          <div class="category-label">{{ product.get_category_display }}</div>
+          <div class="product-name">{{ product.name }}</div>
+        </div>
+        <div class="product-info">
+          <h5 class="price"  style="color: #ffb723;">₦{{ product.price }}</h5>
+          <p class="seller">
+            <a href="{% url 'user_profile' product.seller.username %}">
+              {{ product.seller.username }}
+            </a>
+          </p>
+          <p class="stock">
+            <img src="{% static 'img/timer.png' %}" alt="" class="timer-icon">
+            {{ product.quantity }} products left
+          </p>
+        </div>
+      </a>
+    </div>
+  {% empty %}
+    <div class="no-products">
+      <img src="{% static 'img/no_products.png' %}" alt="No products">
+      <p>No products available yet</p>
+    </div>
+  {% endfor %}
+</div>
+
+
+
+      <!-- Footer Start -->
+      <div
+        class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
+        data-wow-delay="0.1s"
+      >
+        <div class="container py-5">
+          <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+              <h5 class="text-white mb-4">Get In Touch</h5>
+              <p class="mb-2">
+                <i class="fa fa-map-marker-alt me-3"></i>123 Street, New York,
+                USA
+              </p>
+              <p class="mb-2">
+                <i class="fa fa-phone-alt me-3"></i>+012 345 67890
+              </p>
+              <p class="mb-2">
+                <i class="fa fa-envelope me-3"></i>info@example.com
+              </p>
+              <div class="d-flex pt-2">
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-twitter"></i
+                ></a>
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-facebook-f"></i
+                ></a>
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-youtube"></i
+                ></a>
+                <a class="btn btn-outline-light btn-social" href=""
+                  ><i class="fab fa-linkedin-in"></i
+                ></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <h5 class="text-white mb-4">Quick Links</h5>
+              <a class="btn btn-link text-white-50" href="{% url 'home' %}">Home</a>
+              <a class="btn btn-link text-white-50" href="{% url 'about' %}">About</a>
+              <a class="btn btn-link text-white-50" href="{% url 'contact' %}">Contact us</a>
+            </div>
+           {% if not user.is_authenticated %}
+          
+            <div class="col-lg-3 col-md-6" style="
+            display: grid; 
+            justify-content: center; 
+            text-align: center;" id="signup_footer">
+              <h5 class="text-white mb-4">Create an Account</h5>
+              <div class="position-relative mx-auto" style="max-width: 400px;" >
+
+                <a href="{% url 'signup' %}">
+                <button
+                  type="button"
+                  class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2"
+                  >
+                  SignUp
+                </button>
+                </a>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="container">
+          <div class="copyright">
+            <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                &copy; <a class="border-bottom" href="#">NiBa Mart</a>, All
+                Right Reserved.
+
+                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                Designed By
+                <a class="border-bottom" href="https://htmlcodex.com"
+                  >HTML Codex</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer End -->      
+       <!-- Back to Top -->
+      <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"
+        ><i class="bi bi-arrow-up"></i
+      ></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+     <!-- Bootstrap JS (needed for modal) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const customSelect = document.querySelector(".custom-select");
+  const trigger = customSelect.querySelector(".custom-select-trigger");
+  const options = customSelect.querySelectorAll(".custom-option");
+  const realSelect = document.querySelector(".custom-select-wrapper select");
+
+  trigger.addEventListener("click", function () {
+    customSelect.classList.toggle("open");
+  });
+
+  options.forEach(option => {
+    option.addEventListener("click", function () {
+      const value = this.getAttribute("data-value");
+      const text = this.textContent;
+
+      realSelect.value = value; // update real <select>
+      trigger.querySelector("span").textContent = text;
+
+      options.forEach(o => o.classList.remove("selected"));
+      this.classList.add("selected");
+
+      customSelect.classList.remove("open");
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!customSelect.contains(e.target)) {
+      customSelect.classList.remove("open");
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const bellCount = document.getElementById("notification-count");
+  const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+
+  // 1. Fetch unread messages count on page load
+  fetch("/chat/unread_count/")
+    .then(res => res.json())
+    .then(data => updateCount(data.unread_count));
+
+  // 2. Listen for WebSocket updates (new messages)
+  const notifySocket = new WebSocket(protocol + "://" + window.location.host + "/ws/notifications/");
+
+  notifySocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    if (data.type === "new_message") {
+      updateCount(data.unread_count);
+    }
+  };
+
+  // Helper to update badge
+  function updateCount(count) {
+  if (count > 0) {
+    bellCount.textContent = count;
+    bellCount.style.display = "inline-block";  // show badge
+  } else {
+    bellCount.style.display = "none";         // hide badge
+  }
+}
+
+});
+</script>
+  </body>
+</html>

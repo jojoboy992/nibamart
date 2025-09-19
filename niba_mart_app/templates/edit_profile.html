@@ -1,0 +1,215 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NiBa Mart - Edit Profile</title>
+  <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      margin: 0;
+    }
+
+    .profile-card {
+      width: 100%;
+      max-width: 500px;
+      border: 1px solid #00b98e;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 185, 142, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #00b98e;
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    textarea.form-input {
+      resize: vertical;
+    }
+
+    button[type="submit"] {
+      padding: 0.8rem;
+      background-color: #00b98e;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #009e7d;
+    }
+
+    .avatar-preview {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .avatar-preview img {
+      width: 150px;
+      height: 150px;
+      border-radius: 100%;
+      object-fit: cover;
+      border: 1px solid #ccc;
+    }
+
+    .errorlist {
+      color: red;
+      margin-bottom: 1rem;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .form-input[readonly] {
+  background-color: #f5f5f5;
+  color: #888;
+  cursor: not-allowed;
+  border: 1px dashed #ccc;
+}
+
+    @media (max-width: 600px) {
+      .avatar-preview img {
+        width: 120px;
+        height: 120px;
+      }
+
+      .profile-card {
+        padding: 1.5rem;
+      }
+
+      button[type="submit"] {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <h2>Edit Your Profile</h2>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {{ user_form.non_field_errors }}
+      {{ profile_form.non_field_errors }}
+
+      <h3>Account Info</h3>
+      <div>
+        {{ user_form.username.label_tag }}
+        {{ user_form.username }}
+        {{ user_form.username.errors }}
+      </div>
+      <div>
+        {{ user_form.email.label_tag }}
+        {{ user_form.email }}
+        {{ user_form.email.errors }}
+      </div>
+
+    
+
+      <h3>Profile Info</h3>
+      <div class="avatar-preview" style="display:none;">
+        <label>New Profile Preview:</label><br>
+        <img id="avatarPreview" alt="Profile Picture Preview">
+      </div>
+
+      <div>
+        {{ profile_form.avatar.label_tag }}
+        {{ profile_form.avatar }}
+        {{ profile_form.avatar.errors }}
+      </div>
+      <div>
+  {{ profile_form.phone.label_tag }}
+  {{ profile_form.phone }}
+  {{ profile_form.phone.errors }}
+</div>
+      <div>
+        {{ profile_form.bio.label_tag }}
+        {{ profile_form.bio }}
+        {{ profile_form.bio.errors }}
+      </div>
+      <div>
+        {{ profile_form.store_name.label_tag }}
+        {{ profile_form.store_name }}
+        {{ profile_form.store_name.errors }}
+      </div>
+
+        <div>
+  {{ profile_form.facebook.label_tag }}
+  {{ profile_form.facebook }}
+  {{ profile_form.facebook.errors }}
+</div>
+<div>
+  {{ profile_form.twitter.label_tag }}
+  {{ profile_form.twitter }}
+  {{ profile_form.twitter.errors }}
+</div>
+<div>
+  {{ profile_form.instagram.label_tag }}
+  {{ profile_form.instagram }}
+  {{ profile_form.instagram.errors }}
+</div>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const avatarInput = document.getElementById("id_avatar");
+    const avatarPreview = document.getElementById("avatarPreview");
+    const previewWrapper = avatarPreview.parentElement;
+
+    if (avatarInput) {
+      avatarInput.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            avatarPreview.src = e.target.result;
+            previewWrapper.style.display = "block"; // show preview
+          }
+          reader.readAsDataURL(file);
+        } else {
+          previewWrapper.style.display = "none"; // hide if cleared
+          avatarPreview.src = "";
+        }
+      });
+    }
+  });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+  <title>Sign Up - NiBa Mart</title>
+      <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .signup-card {
+      width: 100%;
+      max-width: 420px;
+      border: 1px solid #00b98e;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 185, 142, 0.2);
+    }
+
+    h3 {
+      text-align: center;
+      color: #00b98e;
+      margin-bottom: 1.5rem;
+    }
+
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem;
+      border: 2px solid #00b98e;
+      color: #00b98e;
+      background-color: #ffffff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .google-btn:hover {
+      background-color: #00b98e4d;
+      color: #ffffff;
+      border: 2px solid #00b98e4d;
+
+    }
+
+     .google-btn img {
+      margin-right: 8px;
+    }
+
+    .divider {
+      text-align: center;
+      color: #888;
+      margin: 1rem 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input {
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.8rem;
+      background-color: #00b98e;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #009e7d;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .footer-text a {
+      color: #00b98e;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .errorlist {
+      color: red;
+      margin-bottom: 1rem;
+      list-style: none;
+      padding-left: 0;
+    }
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+.error {
+    margin: 5px 0;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="signup-card">
+    <h3>Create Your Account</h3>
+
+    <!-- Email Signup Form -->
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        
+        <!-- Display non-field errors -->
+        <div class="errors">
+            {{ form.non_field_errors }}
+        </div>
+
+        <div>
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            <div class="error-message">
+                {% for error in form.username.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            <div class="error-message">
+                {% for error in form.email.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+            <div class="error-message">
+                {% for error in form.phone_number.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            <div class="error-message">
+                {% for error in form.password1.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            <div class="error-message">
+                {% for error in form.password2.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+
+    <div class="footer-text">
+        Already have an account? <a href="{% url 'login' %}">Login</a>
+        <p style="color: #009e7d; cursor: pointer;"><a href="{% url 'home' %}">← Go Back</a></p>
+    </div>
+</div>
+
+</body>
+</html>

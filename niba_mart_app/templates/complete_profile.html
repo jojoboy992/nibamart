@@ -1,0 +1,113 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Complete Your Profile - NiBa Mart</title>
+        <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+
+    
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .profile-card {
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #00b98e;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 185, 142, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #00b98e;
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      padding: 0.8rem;
+      background-color: #00b98e;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #009e7d;
+    }
+
+    .errorlist {
+      color: red;
+      margin-bottom: 1rem;
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <h2>Complete Your Profile</h2>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {# Show username only if the field is required #}
+      {% if form.username.field.required %}
+      <div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+      {% endif %}
+
+      <div>
+        {{ form.avatar.label_tag }}
+        {{ form.avatar }}
+        {{ form.avatar.errors }}
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+</div>
+
+
+</body>
+</html>

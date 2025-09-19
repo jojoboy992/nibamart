@@ -1,0 +1,1191 @@
+{% load static %}
+{% load dict_extras %}
+
+<link
+  href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js"></script>
+    <script src="//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js"></script>
+    <script src="//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+     <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+    />
+    <link
+      rel="mask-icon"
+      type=""
+      href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+      color="#111"
+    />
+    <link
+      rel="canonical"
+      href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <script src="https://use.typekit.net/hoy3lrg.js"></script>
+    <link
+      rel="stylesheet prefetch"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet prefetch"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'chat/chat.css' %}" />
+
+    <style>
+     .unread-badge {
+    background: #ffb723 !important;
+    color: white;
+    font-size: 13px !important;
+    border-radius: 100% !important;
+    position: absolute;
+    padding-top: 2.8px;
+    left: 52% !important;
+    top: 30%;
+    height: 20px !important;
+    width: 20px !important;
+    text-align: center;
+}
+
+
+      @media (max-width: 735px) {
+        .unread-badge {
+          /* padding-left: 7.4px; */
+          left: 63% !important;
+        }
+      }
+
+
+  .no_messages {
+  position: absolute;
+  left: 60%;
+  top: 30%;
+  transform: translateX(-50%);
+}
+
+.no_messages img {
+  margin-left: 40px;
+}
+
+.no_messages p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media(max-width:1335px){
+  .no_messages{
+    left: 67%;
+  }
+}
+
+@media(max-width:926px){
+  .no_messages{
+    left: 72%;
+  }
+}
+
+@media(max-width:735px){
+  .no_messages{
+    left: 60%;
+  }
+
+  .no_messages img{
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media(max-width:320px){
+  .no_messages{
+    left: 60%;
+  }
+
+  .no_messages img{
+    margin-left: 25px;
+    width: 65px;
+    height: 65px;
+  }
+
+  .no_messages p{
+    font-size: 13px;
+  }
+}
+
+.emoji-btn {
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+  width: 35px !important;
+  height: 40px !important;
+  background: #ffb723 !important;
+  margin-left: 5px !important;
+  margin-top: 30px !important;
+
+}
+
+
+
+#chat-message-input{
+  height: 40px !important;
+  margin-top: 30px !important;
+}
+
+#chat-message-submit{
+  height: 40px !important;
+  width: 45px !important;
+  margin-top: 30px !important;
+
+}
+
+.emoji-btn:hover {
+  color: #333;
+  background: #a87a1a !important;
+}
+
+/* Ensure the picker stays inside the parent and scales */
+#emoji-picker {
+  max-height: vh !important;     
+  overflow-y: hidden !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  border-radius: 10px !important;
+}
+
+#emoji-picker .em-emoji-picker {
+  width: 100% !important;
+}
+
+
+
+@media (max-width: 400px) {
+  #emoji-picker {
+      width: 87% !important;
+  }
+}
+
+/* Optional: adjust input padding so button doesn’t cover text */
+.message-input .wrap input {
+  padding-right: 40px !important; /* space for emoji button */
+}
+
+
+.new-messages-separator {
+  text-align: center;
+  font-size: 0.85em;
+  color: #666;
+  margin: 10px 0;
+  position: relative;
+}
+
+.new-messages-separator::before,
+.new-messages-separator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: #ccc;
+}
+
+@media(max-width:400px){
+  .new-messages-separator::before,
+.new-messages-separator::after {
+  width: 20% !important;
+}
+}
+
+.new-messages-separator::before { left: 0; }
+.new-messages-separator::after { right: 0; }
+
+
+    </style>
+  </head>
+  <body>
+    <!-- 
+
+A concept for a chat interface. 
+
+Try writing a new message! :)
+
+
+Follow me here:
+Twitter: https://twitter.com/thatguyemil
+Codepen: https://codepen.io/emilcarlsson/
+Website: http://emilcarlsson.se/
+
+-->
+
+    <div id="frame">
+      <div id="sidepanel">
+        <div id="profile">
+          <div class="wrap">
+            <img
+              id="profile-img"
+              src="{{ request.user.profile.avatar.url|default:'/static/img/default.png' }}"
+              alt=""
+            />
+            <p>{{ request.user.username }} (You)</p>
+            <div id="status-options">
+              <ul>
+                <li id="status-online" class="active">
+                  <span class="status-circle"></span>
+                  <p>Online</p>
+                </li>
+                <li id="status-away">
+                  <span class="status-circle"></span>
+                  <p>Away</p>
+                </li>
+                <li id="status-busy">
+                  <span class="status-circle"></span>
+                  <p>Busy</p>
+                </li>
+                <li id="status-offline">
+                  <span class="status-circle"></span>
+                  <p>Offline</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="search">
+          <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+          <input type="text" placeholder="Search users..." />
+        </div>
+
+        <div id="contacts">
+          <ul id="contacts-ul">
+    {% for user in users %}
+<li class="contact {% if selected_user and selected_user.username == user.username %}active{% endif %}">
+  <div class="wrap"
+       data-username="{{ user.username }}"
+       data-avatar="{{ user.profile.avatar.url|default:'/static/images/default.png' }}">
+    <span class="contact-status online"></span>
+    <img src="{{ user.profile.avatar.url|default:'/static/images/default.png' }}"
+         alt="{{ user.username }}" />
+    <div class="meta">
+      <p class="name">
+        <a href="#"
+           class="user-link"
+           data-username="{{ user.username }}"
+           data-avatar="{{ user.profile.avatar.url|default:'/static/images/default.png' }}">
+          {{ user.username }}
+        </a>
+      </p>
+      <p class="preview">Click to chat</p>
+    </div>
+  </div>
+
+  {% with count=unread_counts|dict_get:user.username %}
+    <span class="unread-badge"
+          data-username="{{ user.username }}"
+          {% if count == 0 %}style="display:none"{% endif %}>
+      {% if count > 0 %}{{ count }}{% endif %}
+    </span>
+  {% endwith %}
+</li>
+
+
+{% empty %}
+<li><p>No users available.</p></li>
+{% endfor %}
+
+</ul>
+
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="contact-profile">
+          <button id="back-button" class="back-btn">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
+          <img
+            id="chat-avatar"
+            src="{% static 'images/default.png' %}"
+            alt="avatar"
+          />
+          <p id="chat-title">Select a user to chat</p>
+        </div>
+
+        <div class="messages">
+          <ul id="chat-log">
+            {% for msg in messages %} {% if msg.sender == request.user %}
+            <!-- Your messages - right side -->
+            <li class="replies" data-id="{{ msg.id }}">
+
+              <p>{{ msg.content }}</p>
+              <!-- Delete button -->
+              <button class="delete-btn" data-id="{{ msg.id }}">...</button>
+            </li>
+            {% else %}
+            <!-- Other user's messages - left side -->
+            <li class="sent" data-id="{{ msg.id }}">
+                    <p>{{ msg.content }}</p>
+                  </li>
+
+            {% endif %} {% endfor %}
+          </ul>
+
+          <button id="scrollToBottomBtn" class="scroll-bottom hidden">⬇</button>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="deleteModal" class="modal hidden">
+          <div class="modal-content">
+            <p>Are you sure you want to delete this message?</p>
+            <button id="confirmDelete">Yes, delete</button>
+            <button id="cancelDelete">Cancel</button>
+          </div>
+        </div>
+
+      <div class="message-input" style="position: relative;"> <!-- make parent relative -->
+        <emoji-picker id="emoji-picker" style="display:none; position:absolute; bottom:50px; left:10px; z-index:1000;"></emoji-picker>
+
+  <div class="wrap">
+    <!-- Emoji button -->
+   
+    <!-- Input field -->
+    <input
+      id="chat-message-input"
+      type="text"
+      placeholder="Write your message..."
+      disabled
+    />
+
+    <!-- Attachments + Send -->
+     <div class="emoji_send" style="display: flex !important;">
+      <button id="emoji-button" type="button" class="emoji-btn">
+      <i class="fa fa-smile-o"></i>
+    </button>
+    <button id="chat-message-submit" class="submit" disabled>
+      <i class="fa fa-paper-plane"></i>
+    </button>
+    </div>
+
+  </div>
+
+  <!-- Hidden emoji picker -->
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+
+
+
+      </div>
+
+      <div class="no_messages" id="no_messages">
+        <img
+          src="{% static 'img/no_messages.png' %}"
+          alt="no-messages"
+          srcset=""
+        />
+        <p>No message is currently open</p>
+      </div>
+    </div>
+
+
+    {% if selected_user %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  // Delegate clicks at the contacts list for efficiency & robustness
+  const contactsList = document.getElementById("contacts-ul") || document.querySelector("#contacts ul");
+
+  if (contactsList) {
+    contactsList.addEventListener("click", function (e) {
+      const wrap = e.target.closest(".wrap");
+      // If click wasn't inside a .wrap, ignore
+      if (!wrap) return;
+
+      // If user clicked the anchor, let the anchor handler take over (we stopPropagation there)
+      // But if not, handle click from the wrap here:
+      if (!e.target.closest(".user-link")) {
+        const username = wrap.dataset.username || wrap.querySelector(".user-link")?.dataset.username;
+        const avatar = wrap.dataset.avatar || wrap.querySelector(".user-link")?.dataset.avatar || wrap.querySelector("img")?.src || "/static/images/default.png";
+
+        if (!username) {
+          console.warn("Contact click: username missing on wrap and inner link.");
+          return;
+        }
+        e.preventDefault();
+        openChat(username, avatar);
+      }
+    });
+  }
+
+  // Explicit user-link handler: stops propagation to avoid double-calls when clicking anchor
+  document.querySelectorAll(".user-link").forEach(link => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation(); // important: prevent wrap handler from running too
+
+      const username = this.dataset.username || this.closest(".wrap")?.dataset.username;
+      const avatar = this.dataset.avatar || this.closest(".wrap")?.dataset.avatar || this.closest(".wrap")?.querySelector("img")?.src || "/static/images/default.png";
+
+      if (!username) {
+        console.warn("user-link click: username missing.");
+        return;
+      }
+      openChat(username, avatar);
+    });
+  });
+});
+
+    </script>
+    {% endif %}
+
+    <script>
+ document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("chat-message-input");
+  const emojiBtn = document.getElementById("emoji-button");
+  const pickerContainer = document.getElementById("emoji-picker");
+
+  // Create EmojiMart picker
+  const picker = new EmojiMart.Picker({
+    onEmojiSelect: (emoji) => {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      input.value =
+        input.value.substring(0, start) + emoji.native + input.value.substring(end);
+      input.focus();
+      input.selectionStart = input.selectionEnd = start + emoji.native.length;
+    },
+    skinTonePosition: "search",
+    previewPosition: "none",
+    perLine: 8,
+    theme: "light"
+  });
+
+  // Append picker
+  pickerContainer.appendChild(picker);
+
+  // ✅ Force custom width after it’s in the DOM
+  requestAnimationFrame(() => {
+    const pickerRoot = pickerContainer.querySelector('.em-emoji-picker');
+    if (pickerRoot) {
+      pickerRoot.style.width = "100%"; // fills your container
+      pickerRoot.style.maxWidth = "600px"; // optional limit
+    }
+  });
+
+  // Toggle visibility
+  emojiBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    pickerContainer.style.display =
+      pickerContainer.style.display === "none" ? "block" : "none";
+  });
+
+  // Close when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!emojiBtn.contains(e.target) && !pickerContainer.contains(e.target)) {
+      pickerContainer.style.display = "none";
+    }
+  });
+});
+
+
+      // ------------------------------------------------------
+      // CONFIG
+      // ------------------------------------------------------
+      const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+      const currentUsername = "{{ request.user.username|escapejs }}";
+      const currentUserAvatar =
+        "{{ request.user.profile.avatar.url|default:'/static/images/default.png'|escapejs }}";
+
+      let chatSocket = null;
+      let statusSocket = null;
+      let activeUser = null;
+      let deleteTargetId = null; // track which message is being deleted
+
+      // ------------------------------------------------------
+      // GLOBAL HELPERS
+      // ------------------------------------------------------
+      function scrollToBottom() {
+        const messagesContainer = document.querySelector(".messages");
+        if (messagesContainer) {
+          setTimeout(() => {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 10);
+        }
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.innerText = text;
+        return div.innerHTML;
+      }
+
+      // ------------------------------------------------------
+      // CHAT FUNCTIONS
+      // ------------------------------------------------------
+
+      function insertNewMessagesSeparator(chatLog) {
+  // Remove any existing separator
+  const existing = chatLog.querySelector(".new-messages-separator");
+  if (existing) existing.remove();
+
+  const separator = document.createElement("li");
+  separator.className = "new-messages-separator";
+  separator.textContent = "New Messages";
+  chatLog.appendChild(separator);
+}
+
+function openChat(username, avatar) {
+  // Update URL param early (keeps back/forward nice)
+  const url = new URL(window.location);
+  url.searchParams.set("to", username);
+  window.history.pushState({}, "", url);
+
+  // UI: show chat area and enable inputs
+  document.getElementById("no_messages").style.display = "none";
+  document.getElementById("chat-message-input").disabled = false;
+  document.getElementById("chat-message-submit").disabled = false;
+  document.querySelector(".content").style.display = "block";
+  document.getElementById("chat-title").textContent = username;
+  document.getElementById("chat-avatar").src = avatar;
+  activeUser = username;
+
+  // highlight active contact
+  document.querySelectorAll(".contact").forEach((c) => c.classList.remove("active"));
+  const activeLink = document.querySelector(`[data-username="${username}"]`);
+  if (activeLink) activeLink.closest(".contact")?.classList.add("active");
+
+  // --- 1) LOAD HISTORY and insert "New Messages" separator above first unread ---
+  fetch("/chat/messages/" + username + "/")
+    .then((res) => res.json())
+    .then((data) => {
+      const chatLog = document.getElementById("chat-log");
+      chatLog.innerHTML = "";
+
+      let separatorInserted = false;
+
+      data.messages.forEach((msg) => {
+        // Insert separator only once, above the first unread message coming from the other user
+        if (!separatorInserted && msg.unread && msg.sender !== currentUsername) {
+          const separator = document.createElement("li");
+          separator.className = "new-messages-separator";
+          separator.textContent = "New Messages";
+          // insert separator before the next appended message so it appears immediately above the unread message
+          chatLog.appendChild(separator);
+          separatorInserted = true;
+        }
+
+        const li = renderMessage(msg, data.other_user.avatar);
+        chatLog.appendChild(li);
+      });
+
+      scrollToBottom();
+
+      // If a separator was inserted, add a scroll-listener that removes it once the user scrolls it into view
+      if (separatorInserted) {
+        const separatorEl = chatLog.querySelector(".new-messages-separator");
+        if (separatorEl) {
+          const onScroll = function () {
+            // container rect & separator rect
+            const containerRect = chatLog.getBoundingClientRect();
+            const sepRect = separatorEl.getBoundingClientRect();
+
+            // if separator is scrolled up enough (i.e. user has seen it), remove it
+            if (sepRect.top < containerRect.top + 20) {
+              separatorEl.remove();
+              chatLog.removeEventListener("scroll", onScroll);
+            }
+          };
+
+          // Attach listener to the scrollable UL
+          chatLog.addEventListener("scroll", onScroll);
+
+          // optional: also remove if user clicks anywhere in chatLog (they probably saw it)
+          const onClickRemove = () => {
+            if (separatorEl && separatorEl.parentNode) {
+              separatorEl.remove();
+            }
+            chatLog.removeEventListener("click", onClickRemove);
+            chatLog.removeEventListener("scroll", onScroll);
+          };
+          chatLog.addEventListener("click", onClickRemove);
+        }
+      }
+
+      // --- 2) Now mark messages as read on the server (after we showed the separator) ---
+      // Note: we intentionally DO NOT remove the separator here — it is a client-side visual
+      // marker that remains until the user scrolls/acts. Because the server is updated,
+      // the separator will not appear again on future page loads.
+      fetch(`/chat/mark_read/${username}/`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+      })
+        .then((res) => res.json())
+        .then((markData) => {
+          if (markData.success) {
+            // Update the global bell/count with authoritative unread_count from server
+            const bellCount = document.getElementById("notification-count");
+            if (bellCount) {
+              const newCount = markData.unread_count || 0;
+              if (newCount > 0) {
+                bellCount.textContent = newCount;
+                bellCount.style.display = "inline-block";
+              } else {
+                bellCount.textContent = "";
+                bellCount.style.display = "none";
+              }
+            }
+
+            // Hide the per-contact unread badge for this contact
+            const activeLink2 = document.querySelector(`[data-username="${username}"]`);
+            if (activeLink2) {
+              const badge = activeLink2.closest(".contact")?.querySelector(".unread-badge");
+              if (badge) {
+                badge.style.display = "none";
+                badge.textContent = "";
+              }
+            }
+
+            // IMPORTANT: do NOT remove ".new-messages-separator" here.
+            // We want users to see where the unread messages start; the separator will
+            // be removed by the scroll/click handlers above or when the chat is closed.
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to mark messages as read:", err);
+        });
+    })
+    .catch((err) => {
+      console.error("Failed to load messages:", err);
+    });
+
+  // --- 3) Setup the websocket for this chat (keeps receiving live messages) ---
+  if (chatSocket) chatSocket.close();
+  chatSocket = new WebSocket(protocol + "://" + window.location.host + "/ws/chat/" + username + "/");
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    const chatLog = document.getElementById("chat-log");
+
+    if (data.type === "chat_message") {
+      // Render incoming message into the open chat
+      const li = renderMessage(
+        { id: data.id, sender: data.sender, content: data.message },
+        avatar
+      );
+      chatLog.appendChild(li);
+      scrollToBottom();
+    } else if (data.type === "delete_message") {
+      const li = document.querySelector(`li[data-id="${data.message_id}"]`);
+      if (li) li.remove();
+    }
+  };
+
+  setupSendHandlers();
+  setupScrollButton();
+  document.getElementById("chat-message-input").focus();
+}
+
+
+      // ------------------------------------------------------
+// MAKE CONTACT ROWS CLICKABLE
+// ------------------------------------------------------
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".wrap").forEach((wrap) => {
+    wrap.addEventListener("click", function () {
+      const username = this.dataset.username;
+      const avatar = this.dataset.avatar;
+
+      if (username && avatar) {
+        openChat(username, avatar);
+      }
+    });
+  });
+});
+
+
+      function sendMessage() {
+        if (!chatSocket || !activeUser) {
+          alert("Select a user first!");
+          return;
+        }
+        const input = document.getElementById("chat-message-input");
+        const message = input.value.trim();
+        if (message) {
+          chatSocket.send(JSON.stringify({ message }));
+          input.value = "";
+          scrollToBottom();
+        }
+      }
+
+      function setupSendHandlers() {
+        const submitButton = document.getElementById("chat-message-submit");
+        const messageInput = document.getElementById("chat-message-input");
+
+        function handleSend(e) {
+          e.preventDefault();
+          sendMessage();
+        }
+
+        if (submitButton) {
+          submitButton.onclick = handleSend;
+        }
+
+        if (messageInput) {
+          messageInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              handleSend(e);
+            }
+          });
+        }
+      }
+
+      // ------------------------------------------------------
+      // STATUS FUNCTIONS
+      // ------------------------------------------------------
+      function setupStatusSocket() {
+        statusSocket = new WebSocket(
+          protocol + "://" + window.location.host + "/ws/status/"
+        );
+
+        statusSocket.onmessage = function (e) {
+          const data = JSON.parse(e.data);
+          if (data.type === "status_update") {
+            const { username, status } = data;
+            const contact = document.querySelector(
+              `.user-link[data-username="${username}"]`
+            );
+            if (contact) {
+              let statusEl = contact
+                .closest(".contact")
+                .querySelector(".status");
+              if (!statusEl) {
+                statusEl = document.createElement("span");
+                statusEl.className = "status";
+                contact.closest(".contact").appendChild(statusEl);
+              }
+              statusEl.textContent = status;
+              statusEl.className = "status " + status;
+            }
+          }
+        };
+
+        statusSocket.onclose = function () {
+          console.warn("Status socket closed, retrying in 5s…");
+          setTimeout(setupStatusSocket, 5000);
+        };
+      }
+
+      // ------------------------------------------------------
+      // SCROLL FUNCTIONALITY
+      // ------------------------------------------------------
+      function setupScrollButton() {
+        const messagesContainer = document.querySelector(".messages");
+        const scrollBtn = document.getElementById("scrollToBottomBtn");
+        if (!messagesContainer || !scrollBtn) return;
+
+        function handleScroll() {
+          const nearBottom =
+            messagesContainer.scrollHeight -
+              messagesContainer.scrollTop -
+              messagesContainer.clientHeight <
+            100;
+          scrollBtn.classList.toggle("hidden", nearBottom);
+        }
+
+        messagesContainer.removeEventListener("scroll", handleScroll);
+        messagesContainer.addEventListener("scroll", handleScroll);
+        scrollBtn.addEventListener("click", scrollToBottom);
+
+        setTimeout(handleScroll, 100);
+      }
+
+      // ------------------------------------------------------
+      // INIT
+      // ------------------------------------------------------
+      document.addEventListener("DOMContentLoaded", function () {
+        // contact click
+        document.querySelectorAll(".user-link").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            openChat(
+              this.dataset.username,
+              this.dataset.avatar || "/static/images/default.png"
+            );
+          });
+        });
+
+        // delete event delegation
+        const chatLog = document.getElementById("chat-log");
+        if (chatLog) {
+          chatLog.addEventListener("click", function (e) {
+            const btn = e.target.closest(".delete-btn");
+            if (!btn) return;
+            deleteTargetId = btn.dataset.id;
+            document.getElementById("deleteModal").classList.remove("hidden");
+          });
+        }
+
+        // auto-open ?to=
+        const params = new URLSearchParams(window.location.search);
+        const toUser = params.get("to");
+        if (toUser) {
+          const link = document.querySelector(
+            `.user-link[data-username="${toUser}"]`
+          );
+          const avatar = link?.dataset.avatar || "/static/images/default.png";
+          openChat(toUser, avatar);
+        }
+
+        // back button
+        const backBtn = document.getElementById("back-button");
+if (backBtn) {
+  backBtn.addEventListener("click", function () {
+    // Hide chat area & reset UI
+    document.getElementById("no_messages").style.display = "block";
+    document.getElementById("chat-message-input").disabled = true;
+    document.getElementById("chat-message-submit").disabled = true;
+    document.getElementById("chat-title").textContent = "Select a user to chat";
+    document.getElementById("chat-avatar").src = "/static/images/default.png";
+    document.getElementById("chat-log").innerHTML = "";
+    document.querySelectorAll(".contact.active").forEach((el) =>
+      el.classList.remove("active")
+    );
+    document.querySelector(".content").style.display = "none";
+
+    // Reset activeUser so WebSocket updates badges properly
+    activeUser = null;
+
+    // Update URL query params
+    const url = new URL(window.location);
+    url.searchParams.delete("to");
+    window.history.pushState({}, "", url);
+
+    // Re-fetch unread counts per user to refresh badges & global counter
+    fetch("/chat/unread_counts_per_user/")
+      .then((res) => res.json())
+      .then((data) => {
+        const counts = data.unread_counts || {};
+
+        // Update per-user badges
+        for (const [username, count] of Object.entries(counts)) {
+          updateUserUnread(username, count);
+        }
+
+        // Update global bell counter
+        const totalUnread = Object.values(counts).reduce((a, b) => a + b, 0);
+        const bellCount = document.getElementById("notification-count");
+        if (bellCount) {
+          if (totalUnread > 0) {
+            bellCount.textContent = totalUnread;
+            bellCount.style.display = "inline-block";
+          } else {
+            bellCount.textContent = "";
+            bellCount.style.display = "none";
+          }
+        }
+      })
+      .catch((err) => console.error("Failed to refresh unread counts:", err));
+  });
+}
+
+
+        // search
+        const searchInput = document.querySelector("#search input");
+        const contactsList = document.querySelector("#contacts ul");
+        if (searchInput) {
+          searchInput.addEventListener("input", function () {
+            performSearch(this.value);
+          });
+          searchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              performSearch(this.value);
+            }
+          });
+          searchInput.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+              this.value = "";
+              resetSearch();
+            }
+          });
+        }
+
+        function performSearch(query) {
+          const term = query.toLowerCase().trim();
+          const contacts = document.querySelectorAll("#contacts .contact");
+          let anyVisible = false;
+          contacts.forEach((contact) => {
+            const username = contact
+              .querySelector(".user-link")
+              .dataset.username.toLowerCase();
+            const displayName = contact
+              .querySelector(".name")
+              .innerText.toLowerCase();
+            if (username.includes(term) || displayName.includes(term)) {
+              contact.style.display = "";
+              anyVisible = true;
+            } else {
+              contact.style.display = "none";
+            }
+          });
+          let noUsersItem = document.querySelector("#no-users-found");
+          if (!anyVisible) {
+            if (!noUsersItem) {
+              noUsersItem = document.createElement("li");
+              noUsersItem.id = "no-users-found";
+              noUsersItem.innerHTML =
+                '<p style="text-align:center; color:gray;">No users found</p>';
+              contactsList.appendChild(noUsersItem);
+            }
+          } else if (noUsersItem) {
+            noUsersItem.remove();
+          }
+        }
+
+        function resetSearch() {
+          document
+            .querySelectorAll("#contacts .contact")
+            .forEach((c) => (c.style.display = ""));
+          const noUsersItem = document.querySelector("#no-users-found");
+          if (noUsersItem) noUsersItem.remove();
+        }
+
+        setupStatusSocket();
+        enableLongPressDelete();
+      });
+
+      // ------------------------------------------------------
+      // MESSAGE RENDERING + DELETE CONFIRM
+      // ------------------------------------------------------
+      function renderMessage(msg, otherAvatar) {
+        const li = document.createElement("li");
+        li.className = msg.sender === currentUsername ? "replies" : "sent";
+        li.dataset.id = msg.id;
+
+        const msgAvatar =
+          msg.sender === currentUsername ? currentUserAvatar : otherAvatar;
+        const deleteBtn =
+          msg.sender === currentUsername
+            ? `<button class="delete-btn" data-id="${msg.id}">...</button>`
+            : "";
+
+        li.innerHTML = `
+      <p>${escapeHtml(msg.content)}</p>
+      ${deleteBtn}
+    `;
+        return li;
+      }
+
+      function enableLongPressDelete() {
+        if (window.innerWidth > 900) return;
+        const chatLog = document.getElementById("chat-log");
+        if (!chatLog) return;
+
+        let pressTimer = null;
+        chatLog.addEventListener("touchstart", handlePressStart, {
+          passive: true,
+        });
+        chatLog.addEventListener("mousedown", handlePressStart);
+        chatLog.addEventListener("touchend", handlePressEnd);
+        chatLog.addEventListener("mouseup", handlePressEnd);
+        chatLog.addEventListener("mouseleave", handlePressEnd);
+
+        function handlePressStart(e) {
+          const targetLi =
+            e.target.closest("li.replies") || e.target.closest("li.replies p");
+          if (!targetLi) return;
+          pressTimer = setTimeout(() => {
+            const deleteBtn = targetLi.querySelector(".delete-btn");
+            if (deleteBtn) {
+              deleteTargetId = deleteBtn.dataset.id;
+              document.getElementById("deleteModal").classList.remove("hidden");
+            }
+          }, 1000);
+        }
+
+        function handlePressEnd() {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+      }
+
+      // ------------------------------------------------------
+      // DELETE CONFIRMATION MODAL
+      // ------------------------------------------------------
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("deleteModal");
+
+        document
+          .getElementById("confirmDelete")
+          .addEventListener("click", () => {
+            if (!deleteTargetId) return;
+            fetch(`/chat/delete/${deleteTargetId}/`, {
+              method: "POST",
+              credentials: "same-origin",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"),
+              },
+              body: JSON.stringify({ action: "delete" }),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  const btn = document.querySelector(
+                    `.delete-btn[data-id="${deleteTargetId}"]`
+                  );
+                  if (btn) btn.closest("li").remove();
+                } else {
+                  alert(data.error || "Failed to delete");
+                }
+                modal.classList.add("hidden");
+                deleteTargetId = null;
+              })
+              .catch((err) => {
+                console.error("Delete failed:", err);
+                alert("Delete failed");
+                modal.classList.add("hidden");
+                deleteTargetId = null;
+              });
+          });
+
+        document
+          .getElementById("cancelDelete")
+          .addEventListener("click", () => {
+            modal.classList.add("hidden");
+            deleteTargetId = null;
+          });
+
+        // ✅ Close modal if clicking outside
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            modal.classList.add("hidden");
+            deleteTargetId = null;
+          }
+        });
+      });
+
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM loaded, starting unread count fetch...");
+
+  // Fetch per-user unread counts on page load
+  fetch("/chat/unread_counts_per_user/")
+    .then((res) => res.json())
+    .then((data) => {
+      const counts = data.unread_counts || {};
+
+      // ✅ Update per-user badges
+      for (const [username, count] of Object.entries(counts)) {
+        updateUserUnread(username, count);
+      }
+
+      // ✅ Update global bell counter
+      const total = Object.values(counts).reduce((a, b) => a + b, 0);
+      const bellCount = document.getElementById("notification-count");
+      if (bellCount) {
+        if (total > 0) {
+          bellCount.textContent = total;
+          bellCount.style.display = "inline-block";
+        } else {
+          bellCount.textContent = "";
+          bellCount.style.display = "none";
+        }
+      }
+    })
+    .catch((error) => console.error("Error fetching unread counts:", error));
+
+  function updateUserUnread(username, count) {
+    const counter = document.querySelector(
+      `.unread-badge[data-username="${username}"]`
+    );
+    if (counter) {
+      if (count > 0) {
+        counter.textContent = count;
+        counter.style.display = "block";
+      } else {
+        counter.textContent = "";
+        counter.style.display = "none";
+      }
+    }
+  }
+
+  // Listen for WebSocket updates (new messages)
+  const notifySocket = new WebSocket(
+    (window.location.protocol === "https:" ? "wss" : "ws") +
+      "://" +
+      window.location.host +
+      "/ws/notifications/"
+  );
+
+  notifySocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+
+    // Update global bell
+    const bellCount = document.getElementById("notification-count");
+    if (bellCount) {
+      if (data.unread_count > 0) {
+        bellCount.textContent = data.unread_count;
+        bellCount.style.display = "inline-block";
+      } else {
+        bellCount.textContent = "";
+        bellCount.style.display = "none";
+      }
+    }
+
+    // Update per-user badge
+    if (data.sender && data.sender_unread_count !== undefined) {
+      const userBadge = document.querySelector(
+        `.unread-badge[data-username="${data.sender}"]`
+      );
+
+      if (userBadge) {
+        if (activeUser === data.sender) {
+          // Active chat → hide badge
+          userBadge.textContent = "";
+          userBadge.style.display = "none";
+        } else if (data.sender_unread_count > 0) {
+          // Show badge if unread
+          userBadge.textContent = data.sender_unread_count;
+          userBadge.style.display = "block";
+        } else {
+          // Hide if zero
+          userBadge.textContent = "";
+          userBadge.style.display = "none";
+        }
+      }
+    }
+  };
+});
+
+    </script>
+
+
+  </body>
+</html>

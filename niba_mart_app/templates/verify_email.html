@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Email - Niba Mart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Favicon -->
+    <link href="{% static 'img/niba_logo.png' %}" rel="icon" />
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 380px; width: 100%;">
+    <h4 class="text-center mb-3">Verify Your Email</h4>
+    <p class="text-muted text-center">
+      We sent a 6-digit code to your email. Please enter it below:
+    </p>
+    
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="code" class="form-label">Verification Code</label>
+        <input type="text" id="code" name="code" class="form-control" maxlength="6" required>
+      </div>
+      <button type="submit" class="btn w-100" style="background: #00b98e !important; color: #ffffff;">Verify</button>
+    </form>
+  </div>
+
+</body>
+</html>
+    

@@ -41,7 +41,7 @@ AUTH_USER_MODEL = "niba_mart_app.CustomUser"
 SECRET_KEY = "django-insecure-^jz%5rz-9)gfp&c82c69yc9r@8t8jhe3-lxuu&kg1sh_7*wh8$"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
 
@@ -51,9 +51,9 @@ ALLOWED_HOSTS = [
     "*",  # accept any host while developing
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://*.ngrok-free.app",  # allow CSRF from any ngrok domain
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.com",  # allow CSRF from any ngrok domain
+]
 
 ASGI_APPLICATION = "niba_mart_project.asgi.application"
 

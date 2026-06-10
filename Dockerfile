@@ -3,10 +3,10 @@ FROM python:3.12-slim
 # Install Nginx and Supervisor
 RUN apt-get update && apt-get install -y \
     nginx \
+    supervisor \
     pkg-config \
-    build-essential \
     default-libmysqlclient-dev \
-    libpq-dev \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /niba_mart_project

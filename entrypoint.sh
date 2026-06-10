@@ -8,18 +8,20 @@ echo ">>> Running migrations..."
 python manage.py migrate
 
 echo ">>> Creating superuser if not exists..."
-python manage.py shell << EOF
+python manage.py shell << 'EOF'
+import os
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
-if not User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists():
-    User.objects.create_superuser(
-        '$DJANGO_SUPERUSER_USERNAME',
-        '$DJANGO_SUPERUSER_EMAIL',
-        '$DJANGO_SUPERUSER_PASSWORD'
-    )
+username = os.environ.get('DJANGO_SUPERUSER_USERNAME')
+email    = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+
+if username and not User.objects.filter(username=username).exists():
+    User.objects.create_superuser(username=username, email=email, password=password)
     print("Superuser created.")
 else:
-    print("Superuser already exists.")
+    print("Superuser already exists or USERNAME not set, skipping.")
 EOF
 
 echo ">>> Starting services..."

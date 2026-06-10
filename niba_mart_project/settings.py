@@ -34,6 +34,9 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = "niba_mart_app.CustomUser"
 
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 

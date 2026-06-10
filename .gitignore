@@ -4,11 +4,10 @@ __pycache__/
 
 # Django
 /staticfiles/
-/static/
-static/
-staticfiles/
+staticfiles/     
 media/
 /media/
+
 
 # Virtual environment
 venv/

@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /niba_mart_app
+WORKDIR /niba_mart_project
 
 # Install Python dependencies
 COPY requirements.txt .

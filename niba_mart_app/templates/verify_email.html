@@ -14,22 +14,54 @@
 
   <div class="card shadow-lg p-4 rounded-4" style="max-width: 380px; width: 100%;">
     <h4 class="text-center mb-3">Verify Your Email</h4>
+
     <p class="text-muted text-center">
-      We sent a 6-digit code to your email. Please enter it below:
+    Check your inbox or spam folder.
     </p>
-    
+
+    <p class="text-muted text-center">
+  We sent a 6-digit code to
+  {% if user_email %}
+    <strong>{{ user_email }}</strong>.
+  {% else %}
+    your email.
+  {% endif %}
+  Please enter it below.
+</p>
+
     {% if error %}
       <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
-    
-    <form method="POST">
+
+    {% if success %}
+      <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'verify_email' %}">
       {% csrf_token %}
       <div class="mb-3">
         <label for="code" class="form-label">Verification Code</label>
-        <input type="text" id="code" name="code" class="form-control" maxlength="6" required>
+        <input type="text" id="code" name="code" class="form-control"
+               maxlength="6" required autocomplete="one-time-code">
       </div>
-      <button type="submit" class="btn w-100" style="background: #00b98e !important; color: #ffffff;">Verify</button>
+      <button type="submit" class="btn w-100"
+              style="background: #00b98e; color: #ffffff;">
+        Verify
+      </button>
     </form>
+
+    <hr class="my-3">
+
+    <form method="POST" action="{% url 'resend_verification_code' %}">
+      <p class="text-muted text-center">
+      Didn't see the code?, request a new one.
+    </p>
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-secondary w-100">
+        Resend Code
+      </button>
+    </form>
+
   </div>
 
 </body>

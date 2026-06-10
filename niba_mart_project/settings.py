@@ -38,21 +38,22 @@ AUTH_USER_MODEL = "niba_mart_app.CustomUser"
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^jz%5rz-9)gfp&c82c69yc9r@8t8jhe3-lxuu&kg1sh_7*wh8$"
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # ALLOWED_HOSTS = ["*"]
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "*",  # accept any host while developing
+    host.strip()
+    for host in os.environ.get('ALLOWED_HOSTS', '').split(',')
+    if host.strip()
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.com",  # allow CSRF from any ngrok domain
+    origin.strip()
+    for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+    if origin.strip()
 ]
 
 ASGI_APPLICATION = "niba_mart_project.asgi.application"
@@ -79,8 +80,10 @@ INSTALLED_APPS = [
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-        # For production, switch to Redis
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL')],
+        },
     }
 }
 
@@ -118,19 +121,23 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "niba_db",
-        "USER": "niba_user",
-        "PASSWORD": "Jojoboy@1992",
-        "HOST": "localhost",  # Or your MySQL server address
-        "PORT": "3306",  # Default MySQL port
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'defaultdb'),
+        'USER': os.environ.get('DB_USER', 'avnadmin'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
         },
     }
 }
 
+# ── HTTPS (Koyeb handles SSL at edge) ─────────────────────
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -166,7 +173,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -190,7 +197,7 @@ LOGIN_URL = "/login/"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True    
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "nibamartofficial@gmail.com"
 EMAIL_HOST_PASSWORD = "uzyoegmlpeqhsmhn"  # Use app password if 2FA is enabled
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -198,8 +205,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # EMAIL_HOST_PASSWORD = "fgcdosweimmqvkdt"
 
 # EMAIL_HOST_PASSWORD = "xfnshhkfamtjsdtp"
-
-
 
 
 LOGIN_REDIRECT_URL = "home"

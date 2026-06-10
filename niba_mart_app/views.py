@@ -36,10 +36,15 @@ class CustomLoginView(LoginView):
 
 def signup_view(request):
     if request.method == "POST":
+        # ✅ Add these two lines
+        email = request.POST.get("email", "").strip()
+        if email:
+            CustomUser.objects.filter(email=email, is_active=False).delete()
+
         form = CustomSignupForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # deactivate until verified
+            user.is_active = False
             user.save()
 
             code = str(random.randint(100000, 999999))
@@ -51,15 +56,14 @@ def signup_view(request):
             )
             text_content = strip_tags(html_content)
 
-            email = EmailMultiAlternatives(
+            email_msg = EmailMultiAlternatives(
                 subject="Your Verification Code",
                 body=text_content,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=[user.email],
             )
-            email.attach_alternative(html_content, "text/html")
+            email_msg.attach_alternative(html_content, "text/html")
 
-            # Attach image inline
             try:
                 logo_path = os.path.join(
                     settings.BASE_DIR, "static/img/niba_mart_picture.jpg"
@@ -67,16 +71,15 @@ def signup_view(request):
                 with open(logo_path, "rb") as f:
                     logo = MIMEImage(f.read())
                     logo.add_header("Content-ID", "<niba_logo>")
-                    email.attach(logo)
+                    email_msg.attach(logo)
                 print("Logo image attached successfully.")
             except FileNotFoundError:
                 print("Logo image not found at path:", logo_path)
             except Exception as e:
                 print("Error attaching logo image:", e)
 
-            # Send email
             try:
-                email.send()
+                email_msg.send()
                 print(f"Verification email sent to {user.email}")
             except Exception as e:
                 print(f"Failed to send email to {user.email}: {e}")
@@ -91,17 +94,23 @@ def signup_view(request):
 
 
 def verify_email_view(request):
+    user_id = request.session.get("pending_user")
+    user_email = None
+
+    if user_id:
+        try:
+            user_email = CustomUser.objects.get(id=user_id).email
+        except CustomUser.DoesNotExist:
+            pass
+
     if request.method == "POST":
         code_entered = request.POST.get("code")
-        user_id = request.session.get("pending_user")
         if not user_id:
-            print("No pending user in session.")
             return redirect("signup")
 
         try:
             user = CustomUser.objects.get(id=user_id)
         except CustomUser.DoesNotExist:
-            print(f"User with ID {user_id} does not exist.")
             return redirect("signup")
 
         verification = EmailVerification.objects.filter(
@@ -112,14 +121,83 @@ def verify_email_view(request):
             user.is_active = True
             user.save()
             login(request, user, backend="django.contrib.auth.backends.ModelBackend")
-            print(f"User {user.email} verified and logged in.")
             return redirect("home")
         else:
-            print(f"Invalid or expired code entered: {code_entered}")
-            return render(
-                request, "verify_email.html", {"error": "Invalid or expired code"}
-            )
-    return render(request, "verify_email.html")
+            return render(request, "verify_email.html", {
+                "error": "Invalid or expired code",
+                "user_email": user_email,  # ✅
+            })
+
+    return render(request, "verify_email.html", {
+        "user_email": user_email,  # ✅
+    })
+
+def resend_verification_code_view(request):
+    if request.method != "POST":
+        return redirect("verify_email")
+
+    user_id = request.session.get("pending_user")
+    if not user_id:
+        return redirect("signup")
+
+    try:
+        user = CustomUser.objects.get(id=user_id)
+    except CustomUser.DoesNotExist:
+        return redirect("signup")
+
+    # Rate limit: block resend if last code is less than 60s old
+    last = EmailVerification.objects.filter(user=user).last()
+    if last:
+        elapsed = timezone.now() - last.created_at
+        cooldown = timedelta(seconds=60)
+        if elapsed < cooldown:
+            remaining = int((cooldown - elapsed).total_seconds())
+            return render(request, "verify_email.html", {
+                "error": f"Please wait {remaining} second(s) before requesting a new code.",
+                "user_email": user.email,
+            })
+
+    # Invalidate old codes, issue a fresh one
+    EmailVerification.objects.filter(user=user).delete()
+    new_code = str(random.randint(100000, 999999))
+    EmailVerification.objects.create(user=user, code=new_code)
+
+    # Build email the same way as signup_view
+    html_content = render_to_string("emails/email.html", {"user": user, "code": new_code})
+    text_content = strip_tags(html_content)
+
+    email_msg = EmailMultiAlternatives(
+        subject="Your new Verification Code",
+        body=text_content,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[user.email],
+    )
+    email_msg.attach_alternative(html_content, "text/html")
+
+    try:
+        logo_path = os.path.join(settings.BASE_DIR, "static/img/niba_mart_picture.jpg")
+        with open(logo_path, "rb") as f:
+            logo = MIMEImage(f.read())
+            logo.add_header("Content-ID", "<niba_logo>")
+            email_msg.attach(logo)
+    except FileNotFoundError:
+        print("Logo image not found at path:", logo_path)
+    except Exception as e:
+        print("Error attaching logo image:", e)
+
+    try:
+        email_msg.send()
+    except Exception as e:
+        print(f"Failed to send resend email: {e}")
+        return render(request, "verify_email.html", {
+            "error": "Failed to send email. Please try again shortly.",
+            "user_email": user.email,
+        })
+
+    return render(request, "verify_email.html", {
+        "success": "A new code has been sent to your email.",
+        "user_email": user.email,
+    })
 
 
 @login_required

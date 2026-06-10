@@ -18,7 +18,7 @@ class CustomSignupForm(UserCreationForm):
         widget=forms.EmailInput(
             attrs={"class": "form-input", "placeholder": "Student Email"}
         ),
-        label="Student Email",
+        label="Email",
     )
     phone_number = forms.CharField(
         widget=forms.TextInput(
@@ -42,22 +42,13 @@ class CustomSignupForm(UserCreationForm):
         model = CustomUser
         fields = ["username", "email", "phone_number", "password1", "password2"]
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        pattern = r"^\d{9}@(nileuniversity\.edu\.ng|bazeuniversity\.edu\.ng)$"
-        if not re.match(pattern, email):
-            raise forms.ValidationError(
-                "Only valid Nile or Baze University student emails are allowed."
-            )
-        return email
-
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.EmailField(
         widget=forms.EmailInput(
-            attrs={"class": "form-input", "placeholder": "Student Email"}
+            attrs={"class": "form-input", "placeholder": "Email"}
         ),
-        label="Student Email",
+        label="Email",
     )
     password = forms.CharField(
         label="Password",

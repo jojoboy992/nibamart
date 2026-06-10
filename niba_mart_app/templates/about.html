@@ -121,6 +121,18 @@
             justify-content: start !important;
           }
       }
+
+      #notification-count{
+  position: absolute;
+  top: -5px;
+  left: 9.5px;
+  background: #ffb723;
+  color: white;
+  border-radius: 50%; 
+  padding: 2px 6px;
+  font-size: 12px;
+  display: none;
+}
     </style>
 
     </style>
@@ -161,13 +173,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse" style="height: 100px !important;">
             <div class="navbar-nav ms-auto">
-              <a href="#" class="nav-item nav-link">
+              <a href="{% url 'chat_page' %}" class="nav-item nav-link">
                 <div id="notification-bell" style="position: relative; cursor: pointer;">
   <i class="fa fa-bell" style="font-size: 25px;"></i>
-  <span id="notification-count"
-        style="position: absolute; top: -5px; right: -10px; 
-               background: #ffb723; color: white; border-radius: 50%; 
-               padding: 2px 6px; font-size: 12px; display: none;">0</span>
+  <span id="notification-count">0</span>
 </div>
 </a>
               <!-- <a href="{% url 'home' %}" class="nav-item nav-link active"
@@ -335,7 +344,7 @@ Whether you’re moving out, decluttering, or just looking for a deal, this spac
 <!-- FAQ section end -->
 
         <!-- Call to Action Start -->
-        <div class="container-xxl py-5">
+        <!-- <div class="container-xxl py-5">
             <div class="container">
                 <div class="bg-light rounded p-3">
                     <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
@@ -354,7 +363,7 @@ Whether you’re moving out, decluttering, or just looking for a deal, this spac
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Call to Action End -->
 
       <!-- Footer Start -->
@@ -366,30 +375,13 @@ Whether you’re moving out, decluttering, or just looking for a deal, this spac
           <div class="row g-5">
             <div class="col-lg-3 col-md-6">
               <h5 class="text-white mb-4">Get In Touch</h5>
+            
               <p class="mb-2">
-                <i class="fa fa-map-marker-alt me-3"></i>123 Street, New York,
-                USA
+                <i class="fa fa-phone-alt me-3"></i>+234 704 700 0769
               </p>
               <p class="mb-2">
-                <i class="fa fa-phone-alt me-3"></i>+012 345 67890
+                <i class="fa fa-envelope me-3"></i>niba_mart_official@gmail.com
               </p>
-              <p class="mb-2">
-                <i class="fa fa-envelope me-3"></i>info@example.com
-              </p>
-              <div class="d-flex pt-2">
-                <a class="btn btn-outline-light btn-social" href=""
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a class="btn btn-outline-light btn-social" href=""
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
-                <a class="btn btn-outline-light btn-social" href=""
-                  ><i class="fab fa-youtube"></i
-                ></a>
-                <a class="btn btn-outline-light btn-social" href=""
-                  ><i class="fab fa-linkedin-in"></i
-                ></a>
-              </div>
             </div>
             <div class="col-lg-3 col-md-6">
               <h5 class="text-white mb-4">Quick Links</h5>
@@ -397,7 +389,7 @@ Whether you’re moving out, decluttering, or just looking for a deal, this spac
               <a class="btn btn-link text-white-50" href="{% url 'about' %}">About</a>
               <a class="btn btn-link text-white-50" href="{% url 'contact' %}">Contact us</a>
             </div>
-       {% if not user.is_authenticated %}
+            {% if not user.is_authenticated %}
           
             <div class="col-lg-3 col-md-6" style="
             display: grid; 
@@ -423,14 +415,9 @@ Whether you’re moving out, decluttering, or just looking for a deal, this spac
           <div class="copyright">
             <div class="row">
               <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                &copy; <a class="border-bottom" href="#">NiBa Mart</a>, All
+                &copy; <a class="border-bottom" href="{% url 'home' %}">NiBa Mart</a>, All
                 Right Reserved.
 
-                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                Designed By
-                <a class="border-bottom" href="https://htmlcodex.com"
-                  >HTML Codex</a
-                >
               </div>
             </div>
           </div>
